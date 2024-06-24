@@ -1,1 +1,15 @@
-<h1>you've made it to profile</h1>
+<% if (user) { %>
+<h1>you've made it to profile for: <%= user.username %></h1>
+<p>Address: <%= user.address %></p>
+<p>Email: <%= user.email %></p>
+
+<form action="/profile/edit" method="get">
+    <button type="submit">Edit Profile</button>
+</form>
+<form action="/logout" method="get">
+    <button type="submit">Log out</button>
+</form>
+<% } %>
+<% if (!user) { %>
+    <h1>Access Denied</h1>
+<% } %>
