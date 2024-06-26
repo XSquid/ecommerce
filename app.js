@@ -3,12 +3,25 @@ const session = require('express-session');
 const bodyParser = require('body-parser')
 const app = express();
 const port = 3000
-const users = require('./user_queries')
-const products = require('./product_queries')
+const users = require('./queries/user_queries')
+const products = require('./queries/product_queries')
+const carts = require('./queries/cart_queries')
+const checkout = require('./queries/checkout_queries')
+const order = require('./queries/order_queries')
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 const dblogin = require('./database');
 const bcrypt = require('bcrypt')
+
+
+//Check if user is logged in/authorized on passport. Passport will create the req.user object, if true they are logged in.
+const loggedIn = (req, res, next) => {
+  if (req.user) {
+    next();
+  } else {
+    res.redirect('/login')
+  };
+};
 
 
 app.use(session({
@@ -74,9 +87,12 @@ app.get('/register',
   }
 )
 
+app.post('/register/create', users.createUser, function (req, res) {
+  res.redirect('/login')
+})
 
 
-app.get("/profile/edit", (req, res) => {
+app.get("/profile/edit/:id", (req, res) => { //not quite how i want it, should add a check to make sure :id is same as user id
   res.render("profile_edit.ejs", { user: req.user });
 });
 
@@ -84,8 +100,8 @@ app.get("/profile/:id", (req, res) => {
   res.render("profile.ejs", { user: req.user });
 });
 
-app.post('/profile/edit/:id', users.updateUser)
-
+app.post('/profile/edit/:id', loggedIn, users.updateUser) // Update user, add auth check
+app.post('/profile/edit/:id/delete', loggedIn, users.deleteUser) //Delete user, add auth check
 
 app.get('/logout', function (req, res, next) {
   console.log(`Logging out ${req.user.username}`)
@@ -95,20 +111,33 @@ app.get('/logout', function (req, res, next) {
   });
 });
 
-
 app.get('/users', users.getUsers) // need to add authorization to these
 
-app.post('/register/create', users.createUser, function (req, res) {
-  res.redirect('/login')
-})
+//product CRUD begin here
 
-app.delete('/users/:id', users.deleteUser)
+app.get('/products', products.getProducts,
+  function (req, res, next) {
+    res.render('products.ejs')
+  })
 
-app.get('/products', products.getProducts)
+app.get('/products/search', products.categorySearch)
+
 app.get('/products/:id', products.getProductById)
-app.post('/products', products.createProduct) //add authorization
+app.post('/products/createNew', products.createProduct) //add authorization
 app.put('/products/:id', products.updateProduct) // add authorization
 app.delete('/products/:id', products.deleteProduct) // add authorization
+
+//carts and orders
+
+app.get('/carts', carts.getAllCarts)
+app.get('/cart/:id', carts.getCart)
+app.post('/cart/create', carts.createCart)
+app.post('/cart/edit/:id', carts.updateCart)
+app.post('/cart/delete/:id', carts.deleteCart)
+app.post('/cart/:id/checkout', checkout.checkoutCart)
+app.get('/order/:id', order.getOrder)
+
+// basic
 
 app.post('/login/password',
   passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),

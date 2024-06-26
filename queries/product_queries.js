@@ -1,18 +1,16 @@
-const dblogin = require('./database');
+const dblogin = require('../database');
 
 const getProducts = (request, response) => {
     dblogin.pool.query('SELECT * FROM products ORDER BY product_id ASC', (error, results) => {
         if (error) {
             throw error
         }
-        response.status(200).json(results.rows)
+        response.status(200).json(results.rows);
     })
 }
 
 const getProductById = (request, response) => {
     const id = parseInt(request.params.id)
-
-
     dblogin.pool.query('SELECT * FROM products WHERE product_id = $1', [id], (error, results) => {
         if (error) {
             throw error
@@ -21,10 +19,20 @@ const getProductById = (request, response) => {
     })
 }
 
-const createProduct = (request, response) => {
-    const { product_name, price, stock_amount } = request.body
+const categorySearch = (request, response) => {
+    const category = request.query.category
+    dblogin.pool.query('SELECT * FROM PRODUCTS WHERE category = $1', [category], (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
 
-    dblogin.pool.query('INSERT INTO products ( product_name, price, stock_amount) VALUES ($1, $2, $3) RETURNING *', [ product_name, price, stock_amount], (error, results) => {
+const createProduct = (request, response) => {
+    const { product_name, price, stock_amount, category } = request.body
+
+    dblogin.pool.query('INSERT INTO products ( product_name, price, stock_amount, category) VALUES ($1, $2, $3, $4) RETURNING *', [ product_name, price, stock_amount, category], (error, results) => {
         if (error) {
             throw error
         }
@@ -62,6 +70,7 @@ const deleteProduct = (request, response) => {
 module.exports = {
     getProducts,
     getProductById,
+    categorySearch,
     createProduct,
     updateProduct,
     deleteProduct

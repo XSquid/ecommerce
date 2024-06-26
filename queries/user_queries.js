@@ -1,4 +1,4 @@
-const dblogin = require('./database');
+const dblogin = require('../database');
 const bcrypt = require("bcrypt");
 
 const saltRounds = 10
@@ -72,12 +72,16 @@ const updateUser = (request, response) => {
 
 const deleteUser = (request, response) => {
     const user_id = parseInt(request.params.id)
-
+    request.logout(function (err) {
+        if (err) { return next(err); }
+        response.redirect('/');
+      });
     dblogin.pool.query('DELETE FROM users WHERE user_id = $1', [user_id], (error, results) => {
         if (error) {
             throw error
         }
-        return response.status(200).send(`User deleted with ID: ${user_id}`)
+        console.log(`User deleted with ID: ${user_id}`)
+        return response.status(200)
     })
 }
 

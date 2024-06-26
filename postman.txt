@@ -1,0 +1,23 @@
+{
+    "user_id": 8,
+    "item1_id": 3,
+    "item1_amount": 2,
+    "item2_id": 6,
+    "item2_amount": 2,
+    "item3_id": null,
+    "item3_amount": null,
+    "item4_id": null,
+    "item4_amount": null,
+    "item5_id": null,
+    "item5_amount": null,
+    "item6_id": null,
+    "item6_amount": null,
+    "item7_id": null,
+    "item7_amount": null,
+    "item8_id": null,
+    "item8_amount": null,
+    "item9_id": null,
+    "item9_amount": null,
+    "item10_id": null,
+    "item10_amount": null
+}
