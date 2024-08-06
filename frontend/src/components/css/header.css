@@ -1,0 +1,13 @@
+.header {
+    background-color: lightblue;
+}
+
+.header h1 {
+    padding-left: 5%;
+    padding-top: 0.5rem;
+}
+
+.navbar {
+    padding-left: 10%;
+    padding-bottom: 1rem;
+}
