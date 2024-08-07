@@ -1,13 +1,13 @@
-.register-outer{
+.login-outer{
     background: -webkit-linear-gradient(left, #3E5C76, #3E5C76 30%, #F0EBD8 30%, #F0EBD8);
     height: calc(92vh - 111.438px);
     padding-top: 8vh;
 }
 
-.register-break{
+.login-break{
     margin-bottom: 30px;
 }
-.register-middle{
+.login-middle{
     margin-left: 20%;
     background: linear-gradient(345deg, #3e5c76de 200px, #748cabda 200px, #748cabda),
     url('./pictures/hammers_register.jpg');
@@ -20,18 +20,18 @@
 
 }
 
-.register-inner-left{
+.login-inner-left{
     grid-column-start: 1;
     text-align: center;
     border-radius: 1rem;
 }
 
-.register-inner-left h2{
+.login-inner-left h2{
     padding-top: 25%;
     color: #F0EBD8;
 }
 
-.register-inner-right{
+.login-inner-right{
     grid-column-start: 2;
     background-color: #F0EBD8;
     text-align: center;
@@ -41,13 +41,13 @@
     margin-left: 15%;
 }
 
-.register-inner-right form{
+.login-inner-right form{
     padding-top: 0.5rem;
     padding-bottom: 1rem;
     font-size: 1rem;
 }
 
-.register-inner-right input{
+.login-inner-right input{
     min-width: 50%;
     height: 1.5rem;
     font-size: 1rem;
@@ -55,12 +55,17 @@
     background-color: #F0EBD8;
     
 }
-.register-inner-right button{
+.login-inner-right button{
     margin-top: 1rem;
     min-width: 52%;
     border-radius: 1rem;
     height: 2rem;
     background-color:#3E5C76;
     color: #F0EBD8;
+    
     font-size: 1rem;
+}
+
+.login-inner-left p{
+    color: #F0EBD8;
 }

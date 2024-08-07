@@ -12,6 +12,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 const dblogin = require('./database');
 const bcrypt = require('bcrypt')
+const cors = require('cors');
 
 
 //Check if user is logged in/authorized on passport. Passport will create the req.user object, if true they are logged in.
@@ -23,7 +24,7 @@ const loggedIn = (req, res, next) => {
   };
 };
 
-
+app.use(cors());
 app.use(session({
   secret: "cats",
   resave: false,
@@ -75,17 +76,17 @@ passport.use(new LocalStrategy(function (username, password, done) {
 
 app.set('view engine', 'ejs');
 
-app.get('/login',
-  function (req, res, next) {
-    res.render('login');
-  }
-);
+// app.get('/login',
+//   function (req, res, next) {
+//     res.render('login');
+//   }
+// );
 
-app.get('/register',
-  function (req, res, next) {
-    res.render('register.ejs')
-  }
-)
+// app.get('/register',
+//   function (req, res, next) {
+//     res.render('register.ejs')
+//   }
+// )
 
 app.post('/register/create', users.createUser, function (req, res) {
   res.redirect('/login')

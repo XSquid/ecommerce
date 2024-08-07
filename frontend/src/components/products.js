@@ -1,7 +1,9 @@
 import React from "react"
 import { Link } from "react-router-dom";
+import GetProducts from "../api/products_api";
 
 const Products = () => {
+
 
     return (
         <div className='products'>
@@ -9,7 +11,7 @@ const Products = () => {
             <Link to={'/home'}>
                 <button>Go to Home</button>
             </Link>
-
+        <GetProducts />
         </div>
     )
 
