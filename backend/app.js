@@ -141,11 +141,15 @@ app.get('/order/:id', order.getOrder)
 // basic
 
 app.post('/login/password',
-  passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
+  passport.authenticate('local', { failureRedirect: '/error', failureMessage: true }),
   function (req, res) {
     console.log(req.user)
-    res.redirect('/profile/' + req.user.user_id);
+    res.status(200).json(req.user.user_id);
   });
+
+app.use('/error', function (req, res, next) {
+  res.sendStatus(401);
+})
 
 app.use('/', function (req, res, next) {
   res.render('index')
