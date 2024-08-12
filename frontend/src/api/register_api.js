@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from './axios';
+import { useNavigate } from 'react-router';
 
 function RegisterUser() {
 
@@ -9,16 +10,21 @@ function RegisterUser() {
     const [address, setAddress] = useState('');
     const [email, setEmail] = useState('')
 
+    const navigate = useNavigate();
+
     //submit to server the input fields to register a new user
     const handleSubmit = async (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3000/register/create', {
+        axios.post('/register/create', {
             username,
             password,
             address,
             email
         }).then(function (response) {
             console.log(response)
+            if (response.data === 'Created') {
+                navigate('/profile')
+            }
         })
         .catch(function (error) {
             console.log(error)

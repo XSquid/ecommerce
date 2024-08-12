@@ -33,10 +33,12 @@ const createUser = (request, response) => {
 
             dblogin.pool.query('INSERT INTO users (username, password, address, email) VALUES ($1, $2, $3, $4) RETURNING *', [username, hash, address, email], (error, results) => {
                 if (error) {
-                    throw error
+                    console.log(`Error: ${error.detail}`)
+                    response.sendStatus(400)
+                    return null
                 }
                 console.log(`Created user with username: ${username}`)
-                return response.status(201).redirect('/login')
+                response.sendStatus(201)
             })
 
         });

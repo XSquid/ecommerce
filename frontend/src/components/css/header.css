@@ -1,6 +1,7 @@
 .header {
     background-color: #1d2d44;
-    color: #F0EBD8
+    color: #F0EBD8;
+    font-size: 1.1rem;
 }
 
 .header h1 {
@@ -11,4 +12,19 @@
 .navbar {
     padding-left: 10%;
     padding-bottom: 1rem;
+}
+
+#logbutton {
+    white-space: nowrap;
+    padding-left: 2%;
+}
+
+.header-btn {
+    background-color: #3E5C76;
+    color: #F0EBD8;
+    height: 2rem;
+    width: 8rem;
+    font-size: 1.1rem;
+    margin-left: 1rem;
+    border-radius: 1rem;
 }

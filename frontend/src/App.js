@@ -1,6 +1,6 @@
 import React from 'react';
-import {Route, RouterProvider, createBrowserRouter, createRoutesFromElements} from 'react-router-dom';
-
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
+import RequireAuth from './components/RequireAuth';
 
 import './App.css';
 import Root from './components/root';
@@ -15,9 +15,13 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path='home' element={<Home />} />
     <Route path='login' element={<Login />} />
     <Route path='register' element={<Register />} />
-    <Route path='profile' element={<Profile />} />
+
+    <Route element={<RequireAuth />}>
+      <Route path='profile' element={<Profile />} />
+    </Route>
+
     <Route path='products' element={<Products />} />
-  </Route> 
+  </Route>
 ))
 
 function App() {

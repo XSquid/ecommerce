@@ -1,42 +1,49 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from './axios';
 import { useNavigate } from 'react-router';
+import useAuth from '../hooks/useAuth';
 
 
 function LoginUser() {
 
+    const { setAuth } = useAuth();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [errMsg, setErrMsg] = useState('')
 
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3000/login/password/',{
-            username,
-            password
-        }).then(res => {
-            if (res.data) {
-                console.log(res.data)
-                navigate(`/profile/`)
-            } 
-        })
-        .catch(error => console.log(error))
 
-        // const response = await fetch('http://localhost:3000/login/password', {
-        //     method: 'POST',
-        //     redirect: "follow",
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         username,
-        //         password
-        //     })
-        // })  
-        // console.log(response);
-
-
+        try {
+            const response = await axios.post('/login/password', {
+                username,
+                password
+            }, {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            }
+            );
+            console.log(response)
+            setUsername('');
+            setPassword('')
+            const accessToken = response?.data?.accessToken
+            const user = response?.data?.userData?.username
+            const uid = response?.data?.userData?.user_id
+            setAuth({ user, uid, accessToken })
+            navigate('/profile')
+        } catch (err) {
+            if (!err?.response) {
+                setErrMsg('No Server Response')
+            } else if (err.response?.status === 400) {
+                setErrMsg('Missing Username or Password')
+            } else if (err.response?.status === 401) {
+                setErrMsg('Unauthorized')
+            } else {
+                setErrMsg('Login Failed')
+            }
+        }
     }
 
     return (
@@ -44,13 +51,24 @@ function LoginUser() {
             <form>
                 <div>
                     <label for="username">Username</label><br />
-                    <input id="username" name="username" type="text" autocomplete="username" onChange={event => setUsername(event.target.value)} required />
+                    <input 
+                    id="username" 
+                    type="text" 
+                    onChange={event => setUsername(event.target.value)}
+                    value={username} 
+                    autoComplete='off'
+                    required />
                 </div>
                 <div>
                     <label for="password">Password</label><br />
-                    <input id="password" name="password" type="password" autocomplete="password"  onChange={event => setPassword(event.target.value)} required />
+                    <input 
+                    id="password" 
+                    type="password" 
+                    onChange={event => setPassword(event.target.value)} 
+                    value={password}
+                    required />
                 </div>
-                <button type="submit" onClick={handleSubmit}>Login</button>
+                <button type="submit" onClick={handleSubmit} className="login-btn">Login</button>
             </form>
         </div>
     )

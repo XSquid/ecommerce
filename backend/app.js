@@ -1,6 +1,6 @@
-const express = require('express')
+const express = require('express');
 const session = require('express-session');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const app = express();
 const port = 3000
 const users = require('./queries/user_queries')
@@ -13,7 +13,12 @@ var LocalStrategy = require('passport-local').Strategy;
 const dblogin = require('./database');
 const bcrypt = require('bcrypt')
 const cors = require('cors');
-
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const verifyJWT = require('./controllers/verifyJWT')
+const cookieParser = require('cookie-parser')
+const corsOptions = require('./config/corsOptions')
+const credentials = require('./config/credentials')
 
 //Check if user is logged in/authorized on passport. Passport will create the req.user object, if true they are logged in.
 const loggedIn = (req, res, next) => {
@@ -24,20 +29,27 @@ const loggedIn = (req, res, next) => {
   };
 };
 
-app.use(cors());
+app.use(credentials)
+app.use(cors(corsOptions));
+
 app.use(session({
   secret: "cats",
   resave: false,
   saveUninitialized: false
 }));
 
-
 app.use(bodyParser.json())
+
+//middleware to handle urlencoded form data
 app.use(
   bodyParser.urlencoded({
     extended: false,
   })
 )
+
+//middleware for cookies
+app.use(cookieParser())
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -89,7 +101,7 @@ app.set('view engine', 'ejs');
 // )
 
 app.post('/register/create', users.createUser, function (req, res) {
-  res.redirect('/login')
+  
 })
 
 
@@ -98,7 +110,7 @@ app.get("/profile/edit/:id", (req, res) => { //not quite how i want it, should a
 });
 
 app.get("/profile/:id", (req, res) => {
-  res.render("profile.ejs", { user: req.user });
+  res.render("profile.ejs", { user: req.session.user });
 });
 
 app.post('/profile/edit/:id', loggedIn, users.updateUser) // Update user, add auth check
@@ -143,8 +155,21 @@ app.get('/order/:id', order.getOrder)
 app.post('/login/password',
   passport.authenticate('local', { failureRedirect: '/error', failureMessage: true }),
   function (req, res) {
+    const accessToken = jwt.sign(
+      {"username" : req.user.username},
+      process.env.ACCESS_TOKEN_SECRET,
+      {expiresIn: "1h"}
+    );
+    const refreshToken = jwt.sign(
+      {"username" : req.user.username},
+      process.env.REFRESH_TOKEN_SECRET,
+      {expiresIn: "1d"}
+    );
+    res.cookie('jwt', refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000});
+    const userData = req.user
+    res.json({accessToken, userData})
+
     console.log(req.user)
-    res.status(200).json(req.user.user_id);
   });
 
 app.use('/error', function (req, res, next) {

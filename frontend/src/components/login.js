@@ -1,10 +1,22 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
 import "./css/login.css"
 import LoginUser from "../api/login_api";
+import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 
 const Login = () => {
+
+    const {auth} = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (auth?.user) {
+            navigate('/profile')
+        }
+    })
+
     return (
         <div className='login-outer'>
             <div classname='login-break'></div>

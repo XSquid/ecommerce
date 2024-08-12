@@ -1,11 +1,22 @@
-import React from "react"
+import React, {useEffect} from "react"
 import RegisterUser from "../api/register_api"
+import useAuth from "../hooks/useAuth"
+import { useNavigate } from "react-router"
 
 import './css/register.css'
 
 
 
 const Register = () => {
+
+    const {auth} = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (auth?.user) {
+            navigate('/profile')
+        }
+    })
 
     return (
         <div className='register-outer'>
