@@ -1,0 +1,26 @@
+.cart-container{
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr;
+    background-color: orange;
+    text-align: center;
+    grid-auto-rows: 1.5em;
+    padding-bottom: 1em;
+}
+
+.total-line{
+    border-top: double red;
+    margin-top: 0.25em;
+}
+
+.place-order-btn {
+    background-color: #3E5C76;
+    color: #F0EBD8;
+    height: 2rem;
+    width: 8rem;
+    font-size: 1.1rem;
+    margin-left: 1rem;
+    border-radius: 1rem;
+
+    margin-top: 1em;
+    margin-bottoM: 1em;
+}

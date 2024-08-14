@@ -75,11 +75,13 @@
 
 #arrow-up {
     font-size: 2em;
+    user-select: none;
 }
 
 #arrow-down {
     font-size: 2em;
     margin-top: 0.2em;
+    user-select: none;
 }
 
 #arrow-down:hover {

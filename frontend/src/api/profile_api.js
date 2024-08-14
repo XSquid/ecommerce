@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Cart from './cart';
 
 import useAuth from '../hooks/useAuth';
 
@@ -19,6 +19,7 @@ return (
             </div>
             <div className="current-cart">
                 <h2>Cart</h2>
+                <Cart />
             </div>
             <div className="order-history">
                 <h2>Order History</h2>
