@@ -9,6 +9,7 @@ import Login from './components/login';
 import Register from './components/register';
 import Profile from './components/profile';
 import Products from './components/products';
+import ProductPage from './components/productPage';
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<Root />}>
@@ -21,6 +22,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     </Route>
 
     <Route path='products' element={<Products />} />
+    <Route path='product/:id' element={<ProductPage />} />
   </Route>
 ))
 

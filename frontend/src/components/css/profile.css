@@ -1,0 +1,30 @@
+
+.profile-separator{
+    display: grid;
+    grid-template-columns: 25% 1fr 25%;
+}
+
+.profile-options{
+    background-color: red;
+}
+
+.profile-options button{
+    background-color: #3E5C76;
+    color: #F0EBD8;
+    height: 2rem;
+    width: 80%;
+    min-width: 10rem;
+    font-size: 1.1rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.current-cart{
+    background-color: green;
+}
+
+.order-history{
+    background-color: mediumslateblue;
+}

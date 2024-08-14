@@ -19,6 +19,16 @@ const getProductById = (request, response) => {
     })
 }
 
+const getProductByType = (request, response) => {
+    const type = (request.params.type)
+    dblogin.pool.query('SELECT * FROM PRODUCTS WHERE type = $1' , [type], (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
 const categorySearch = (request, response) => {
     const category = request.query.category
     dblogin.pool.query('SELECT * FROM PRODUCTS WHERE category = $1', [category], (error, results) => {
@@ -73,5 +83,6 @@ module.exports = {
     categorySearch,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductByType
 }

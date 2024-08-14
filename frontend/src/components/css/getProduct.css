@@ -1,0 +1,121 @@
+.product-page {
+    display: grid;
+    margin: 2em;
+    grid-template-columns: repeat(4, 20vw 12vw 15vw 35vw);
+    gap: 2em;
+    background-color: #3E5C76;
+    align-items: center;
+    border-radius: 2em;
+    color: #F0EBD8;
+    min-height: 12em;
+}
+
+#product-page-title {
+    margin-left: calc(20vw + 2em);
+    color: #1d2d44;
+}
+
+
+.products button {
+    background-color: #3E5C76;
+    color: #F0EBD8;
+    height: 2rem;
+    width: 8rem;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    border-radius: 1rem;
+}
+
+#product-picture {
+    margin: auto;
+    max-height: 12rem;
+    max-width: 18vw;
+    padding: 2em;
+
+}
+
+.product-cart {
+    height: 100%;
+    display: inline-flex;
+    text-align: center;
+    align-items: center;
+
+}
+
+.product-cart input[type="number"] {
+    width: 2em;
+    background-color: #F0EBD8;
+    border-radius: 1em;
+    text-align: center;
+    font-size: 1.25em;
+    padding: 0.25em;
+    color: #1d2d44;
+    font-weight: 600;
+}
+
+.product-cart button {
+    background-color: #1d2d44;
+    margin-bottom: 1.4em;
+    position: relative;
+    left: 0;
+
+
+}
+
+.product-cart button:invalid {
+    color: red;
+}
+
+.product-cart button:hover {
+    background-color: #1d2d44;
+    margin-bottom: 1.4em;
+    cursor: pointer;
+}
+
+#arrow-up {
+    font-size: 2em;
+}
+
+#arrow-down {
+    font-size: 2em;
+    margin-top: 0.2em;
+}
+
+#arrow-down:hover {
+    color: #1d2d44;
+    cursor: pointer;
+}
+
+#arrow-up:hover {
+    color: #1d2d44;
+    cursor: pointer;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+
+/* 
+This was for showing an animation on the input box that would flash if the input was invalid
+Due to changing how the input can be changed (not entered manually) it is not possible to 
+make the input invalid anymore. Saving this for reference.
+
+@keyframes invalidAnimation {
+    0% {background-color:#F0EBD8;}
+    10% {background-color: red;}
+    20% {background-color:#F0EBD8;}
+
+}
+
+.product-cart input[type="number"]:invalid{
+    animation-name: invalidAnimation;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+}
+ */

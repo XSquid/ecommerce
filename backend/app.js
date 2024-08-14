@@ -135,10 +135,11 @@ app.get('/products', products.getProducts,
 
 app.get('/products/search', products.categorySearch)
 
-app.get('/products/:id', products.getProductById)
+app.get('/product/:id', products.getProductById)
+app.get('/products/:type', products.getProductByType)
 app.post('/products/createNew', products.createProduct) //add authorization
-app.put('/products/:id', products.updateProduct) // add authorization
-app.delete('/products/:id', products.deleteProduct) // add authorization
+app.put('/product/:id', products.updateProduct) // add authorization
+app.delete('/product/:id', products.deleteProduct) // add authorization
 
 //carts and orders
 

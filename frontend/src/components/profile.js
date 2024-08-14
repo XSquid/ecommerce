@@ -1,6 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom";
 import LoadProfile from "../api/profile_api";
+import "./css/profile.css"
 
 const Profile = () => {
 

@@ -48,6 +48,7 @@ function LoginUser() {
 
     return (
         <div>
+            <p id="error-msg">{errMsg}</p>
             <form>
                 <div>
                     <label for="username">Username</label><br />

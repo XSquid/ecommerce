@@ -1,6 +1,6 @@
 .login-outer{
     background: -webkit-linear-gradient(left, #3E5C76, #3E5C76 30%, #F0EBD8 30%, #F0EBD8);
-    height: calc(88vh - 126.578px);
+    height: calc(92vh - 126.578px);
     padding-top: 8vh;
 }
 
@@ -50,6 +50,7 @@
 
 .login-inner-right input{
     min-width: 50%;
+    max-width: 90%;
     height: 1.5rem;
     font-size: 1rem;
     border-radius: 0.25rem;
@@ -68,4 +69,9 @@
 
 .login-inner-left p{
     color: #F0EBD8;
+}
+
+#error-msg{
+    color: red;
+    font-weight: 700;
 }
