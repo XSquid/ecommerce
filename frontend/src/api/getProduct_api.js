@@ -1,8 +1,7 @@
 import { useParams } from 'react-router';
 import axios from './axios';
 import { useState, useEffect } from 'react';
-
-
+import useAuth from "../hooks/useAuth";
 
 const GetProduct = () => {
 
@@ -10,6 +9,7 @@ const GetProduct = () => {
     const [productInfo, setProductInfo] = useState({})
     const { id } = useParams();
     const [cartAmount, setCartAmount] = useState(0);
+    const { auth } = useAuth();
 
     //Fetch to the database on page load to get product info
     const fetchProduct = async () => {
@@ -55,12 +55,23 @@ const GetProduct = () => {
     }
 
     //Click handler for button to add to cart
-    const addToCart = (e) => {
+    const addToCart = async (e) => {
         e.preventDefault();
         if (cartAmount < 0) {
             return setCartAmount(0)
         } else if (cartAmount > productInfo.stock_amount) {
             return setCartAmount(productInfo.stock_amount)
+        }
+
+        try {
+            const response = await axios.post(`cart/add/${auth.uid}`, {
+                product_id : productInfo.product_id,
+                quantity: cartAmount
+            }
+                //Pick up from here, finish this response
+            )
+        } catch (err) {
+
         }
 
     }
@@ -91,7 +102,7 @@ const GetProduct = () => {
                     <div className='product-cart'>
                         <div>
                             <span class="material-symbols-outlined" id="arrow-up" onClick={cartAmountUp}>keyboard_arrow_up</span><br />
-                            <input id="cart-amount" type="number" max={productInfo.stock_amount} min="0" value={cartAmount} /><br />
+                            <input id="cart-amount" type="number" max={productInfo.stock_amount} min="0" value={cartAmount} readOnly /><br />
                             <span class="material-symbols-outlined" id="arrow-down" onClick={cartAmountDown}>keyboard_arrow_down</span><br />
                         </div>
 

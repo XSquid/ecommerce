@@ -76,12 +76,16 @@
 #arrow-up {
     font-size: 2em;
     user-select: none;
+    color: #F0EBD8;
+    float: none;
 }
 
 #arrow-down {
     font-size: 2em;
     margin-top: 0.2em;
     user-select: none;
+    color: #F0EBD8;
+    float: none;
 }
 
 #arrow-down:hover {
@@ -100,7 +104,6 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-
 
 
 /* 

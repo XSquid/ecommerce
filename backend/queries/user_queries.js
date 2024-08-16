@@ -37,7 +37,16 @@ const createUser = (request, response) => {
                     response.sendStatus(400)
                     return null
                 }
+                const user_id = (results.rows[0].user_id)
                 console.log(`Created user with username: ${username}`)
+                dblogin.pool.query('INSERT INTO cart_test (user_id) VALUES ($1)', [user_id], (error, results) => {
+                    if (error) {
+                        console.log(`Error: ${error.detail}`)
+                        response.sendStatus(400)
+                        return null
+                    }
+                    console.log(`Created empty cart for user ${username}`)
+                })
                 response.sendStatus(201)
             })
 

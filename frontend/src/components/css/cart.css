@@ -24,3 +24,15 @@
     margin-top: 1em;
     margin-bottoM: 1em;
 }
+
+
+.material-symbols-outlined{
+    color:red;
+    float: left;
+    user-select: none;
+}
+
+.material-symbols-outlined:hover + span{
+    text-decoration: line-through;
+    color: rgb(173, 0, 0)
+}

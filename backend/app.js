@@ -146,7 +146,8 @@ app.delete('/product/:id', products.deleteProduct) // add authorization
 app.get('/carts', carts.getAllCarts)
 app.get('/cart/:id', carts.getCart)
 app.post('/cart/create', carts.createCart)
-app.post('/cart/edit/:id', carts.updateCart)
+app.post('/cart/remove/:id', carts.updateCart) //used
+app.post('/cart/add/:id', carts.addToCart)
 app.post('/cart/delete/:id', carts.deleteCart)
 app.post('/cart/:id/checkout', checkout.checkoutCart)
 app.get('/order/:id', order.getOrder)
