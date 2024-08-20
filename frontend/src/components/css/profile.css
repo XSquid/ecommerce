@@ -1,14 +1,36 @@
+.profile {
+    background-color: #F0EBD8;
+    min-height: calc(98vh - 126.578px);
+    padding-top: 1vh;
+}
 
-.profile-separator{
+.profile h1 {
+    color: #1d2d44;
+    margin-left: 10vw;
+}
+
+.profile p{
+    color: #1d2d44;
+    margin-left: 10vw;
+}
+
+.profile-separator {
     display: grid;
     grid-template-columns: 25% 1fr 25%;
+    background-color: #1d2d44;
+    color: #F0EBD8;
+    text-align: center;
+    margin-left: 1em;
+    margin-right: 1em;
+    border-radius: 1em;
+    padding-top: 0.5em;
 }
 
-.profile-options{
-    background-color: red;
+.profile-options {
+    padding-top: 1em;
 }
 
-.profile-options button{
+.profile-options button {
     background-color: #3E5C76;
     color: #F0EBD8;
     height: 2rem;
@@ -21,10 +43,15 @@
     margin-right: 10%;
 }
 
-.current-cart{
-    background-color: green;
+.profile-options button:hover {
+    cursor: pointer;
+    background-color: #748cab;
 }
 
-.order-history{
-    background-color: mediumslateblue;
+.current-cart {
+    padding-top: 1em;
+}
+
+.order-history {
+    padding-top: 1em;
 }

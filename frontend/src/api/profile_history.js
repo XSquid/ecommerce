@@ -39,11 +39,14 @@ const ProfileHistory = () => {
     }, [])
 
     return (
-        <div>
-            <button onClick={loadHistory}>load history</button>
-            {displayHistory()}
 
+        history.length !== 0
+        ?
+        <div>
+            {displayHistory()}
         </div>
+        :
+        <div>No order history</div>
     )
 
 }

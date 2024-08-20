@@ -58,6 +58,8 @@
 .selectProduct:hover {
     background-color: #3E5C76;
     color: #F0EBD8;
+    cursor: pointer;
+    border-radius: 0.5em;
 }
 
 .product-title {
@@ -73,4 +75,9 @@
     margin-top: 1rem;
     margin-left: 1rem;
     border-radius: 1rem;
+}
+
+#backBtn:hover{
+    cursor: pointer;
+    background-color: #748CAB;
 }

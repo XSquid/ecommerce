@@ -7,4 +7,6 @@
 .profile-order-history:hover{
     cursor: pointer;
     color: beige;
+    background-color: #748cab;
+    border-radius: 0.25em;
 }

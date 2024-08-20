@@ -11,10 +11,12 @@ function LoadProfile () {
     
 return (
     <div className="profile">
-        <h1>Welcome {auth.user}</h1>
+        <h1>Welcome back {auth.user}!</h1>
+        <p>Total funds available: </p>
         <div className="profile-separator">
             <div className="profile-options">
                 <h2>User Options</h2>
+                <button>Add Funds</button>
                 <button>Update User</button><br />
                 <button>Delete Account</button>
             </div>

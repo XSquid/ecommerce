@@ -31,6 +31,11 @@
     border-radius: 1rem;
 }
 
+.products button:hover{
+    cursor: pointer;
+    background-color: #748CAB;
+}
+
 #product-picture {
     margin: auto;
     max-height: 12rem;
