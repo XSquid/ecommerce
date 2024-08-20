@@ -10,6 +10,7 @@ import Register from './components/register';
 import Profile from './components/profile';
 import Products from './components/products';
 import ProductPage from './components/productPage';
+import OrderHistory from './components/orderhistory';
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<Root />}>
@@ -17,8 +18,13 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path='login' element={<Login />} />
     <Route path='register' element={<Register />} />
 
+
     <Route element={<RequireAuth />}>
       <Route path='profile' element={<Profile />} />
+    </Route>
+
+    <Route element={<RequireAuth />}>
+      <Route path='order_history/:id' element={<OrderHistory />}/>
     </Route>
 
     <Route path='products' element={<Products />} />

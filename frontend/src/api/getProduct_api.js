@@ -10,6 +10,7 @@ const GetProduct = () => {
     const { id } = useParams();
     const [cartAmount, setCartAmount] = useState(0);
     const { auth } = useAuth();
+    const [createAccount, setCreateAccount] = useState(false)
 
     //Fetch to the database on page load to get product info
     const fetchProduct = async () => {
@@ -57,7 +58,7 @@ const GetProduct = () => {
     //Click handler for button to add to cart
     const addToCart = async (e) => {
         e.preventDefault();
-        if (cartAmount < 0) {
+        if (cartAmount <= 0) {
             return setCartAmount(0)
         } else if (cartAmount > productInfo.stock_amount) {
             return setCartAmount(productInfo.stock_amount)
@@ -65,13 +66,18 @@ const GetProduct = () => {
 
         try {
             const response = await axios.post(`cart/add/${auth.uid}`, {
-                product_id : productInfo.product_id,
+                product_id: productInfo.product_id,
                 quantity: cartAmount
+            } , {
+                headers: {"Authorization": `Bearer ${auth.accessToken}`} //Set authorization header with access token in order to verify login with JWT on backend
             }
-                //Pick up from here, finish this response
             )
-        } catch (err) {
 
+            console.log(response)
+        } catch (err) {
+            if (err.response.status === 401) {
+                return setCreateAccount(true)
+            }
         }
 
     }
@@ -89,16 +95,19 @@ const GetProduct = () => {
             //if the product info is successfully retrieved from server
             ?
             <div>
+                {createAccount
+                    ? <p className='please-login'>Please log in to add items to your cart!</p>
+                    : <></>}
                 <h1 id='product-page-title'>{productInfo.product_name}</h1>
                 <div className="product-page">
                     <img id="product-picture" src={picture} alt={productInfo.picture} />
 
 
-                    <div>
+                    <div className='product-stock'>
                         <p><b>Amount in Stock: </b>{productInfo.stock_amount}</p>
                         <p><b>Price: </b>{productInfo.price}</p>
-
                     </div>
+
                     <div className='product-cart'>
                         <div>
                             <span class="material-symbols-outlined" id="arrow-up" onClick={cartAmountUp}>keyboard_arrow_up</span><br />
@@ -110,9 +119,10 @@ const GetProduct = () => {
 
                         </div>
 
-
+                        
                     </div>
-                    <p>{productInfo.description}</p>
+                    <div className='product-description'><p >{productInfo.description}</p></div>
+                    
 
                 </div>
             </div>

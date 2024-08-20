@@ -9,9 +9,10 @@ const getAllCarts = (request, response) => {
     })
 }
 
+
 const getCart = (request, response) => {
     const user_id = parseInt(request.params.id)
-    dblogin.pool.query('SELECT * FROM cart_test WHERE user_id = $1', [user_id], (error, results) => {
+    dblogin.pool.query('SELECT * FROM cart_test WHERE user_id = $1 AND completed is not true', [user_id], (error, results) => {
         if (error) {
             throw error
         }
@@ -68,6 +69,8 @@ const updateCart = async (request, response) => {
     )
 }
 
+
+//Adding an item to cart
 const addToCart = async (request, response) => {
     const user_id = parseInt(request.params.id);
     const { product_id, quantity } = request.body
@@ -107,7 +110,7 @@ const addToCart = async (request, response) => {
                     throw error
                 }
                 console.log(`Added item ${product_id} quantity ${quantity} to cart ${cart_id}`)
-                return response.status(201)
+                return response.sendStatus(201)
             })
         }
     })

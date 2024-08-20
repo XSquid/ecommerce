@@ -1,0 +1,10 @@
+.profile-order-history{
+    text-align: center;
+    margin-top: 0.25em;
+    user-select: none;
+}
+
+.profile-order-history:hover{
+    cursor: pointer;
+    color: beige;
+}

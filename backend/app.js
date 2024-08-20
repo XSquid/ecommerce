@@ -100,60 +100,81 @@ app.set('view engine', 'ejs');
 //   }
 // )
 
-app.post('/register/create', users.createUser, function (req, res) {
-  
-})
+//Used when creating new users
+app.post('/register/create', users.createUser )// **Sanitize the input
 
 
-app.get("/profile/edit/:id", (req, res) => { //not quite how i want it, should add a check to make sure :id is same as user id
-  res.render("profile_edit.ejs", { user: req.user });
-});
+// app.get("/profile/edit/:id", (req, res) => { // No longer needed, this was just for early testing the backend
+//   res.render("profile_edit.ejs", { user: req.user });
+// });
 
-app.get("/profile/:id", (req, res) => {
-  res.render("profile.ejs", { user: req.session.user });
-});
+// app.get("/profile/:id", (req, res) => {  // No longer needed, this was just for early testing the backend
+//   res.render("profile.ejs", { user: req.session.user });
+// });
 
-app.post('/profile/edit/:id', loggedIn, users.updateUser) // Update user, add auth check
-app.post('/profile/edit/:id/delete', loggedIn, users.deleteUser) //Delete user, add auth check
+//Update user
+app.post('/profile/edit/:id', loggedIn, verifyJWT, users.updateUser)
 
-app.get('/logout', function (req, res, next) {
-  console.log(`Logging out ${req.user.username}`)
-  req.logout(function (err) {
-    if (err) { return next(err); }
-    res.redirect('/');
-  });
-});
+//Delete user
+app.post('/profile/edit/:id/delete', loggedIn, verifyJWT, users.deleteUser) //Delete user
 
-app.get('/users', users.getUsers) // need to add authorization to these
+
+// // No longer needed, this was just for early testing the backend
+// app.get('/logout', function (req, res, next) {
+//   console.log(`Logging out ${req.user.username}`)
+//   req.logout(function (err) {
+//     if (err) { return next(err); }
+//     res.redirect('/');
+//   });
+// });
+
+app.get('/users', users.getUsers) //Not really needed anymore, unless as admin tool.
 
 //product CRUD begin here
 
-app.get('/products', products.getProducts,
-  function (req, res, next) {
-    res.render('products.ejs')
-  })
+//Used in cart to reference items
+app.get('/products', products.getProducts)
 
-app.get('/products/search', products.categorySearch)
-
+//Used when selecting individual products
 app.get('/product/:id', products.getProductById)
+
+//Used when searching for different product types in /products
 app.get('/products/:type', products.getProductByType)
+
+//Currently unused - Would be used by admin to create/update/delete products directly on website
 app.post('/products/createNew', products.createProduct) //add authorization
 app.put('/product/:id', products.updateProduct) // add authorization
 app.delete('/product/:id', products.deleteProduct) // add authorization
 
 //carts and orders
 
+//Unused, would be admin tool
 app.get('/carts', carts.getAllCarts)
+
+//Used to load user cart
 app.get('/cart/:id', carts.getCart)
+
+//Will now be used when placing an order, may just use the carts.createCart method instead of the call.
 app.post('/cart/create', carts.createCart)
-app.post('/cart/remove/:id', carts.updateCart) //used
-app.post('/cart/add/:id', carts.addToCart)
-app.post('/cart/delete/:id', carts.deleteCart)
+
+//Used for removing individual items from carts
+app.post('/cart/remove/:id', verifyJWT, carts.updateCart) 
+
+//Used when adding items to cart
+app.post('/cart/add/:id', verifyJWT, carts.addToCart)
+
+// No longer used, when carts are deleted the contents are now set to empty instead
+// app.post('/cart/delete/:id', carts.deleteCart)
+
+
 app.post('/cart/:id/checkout', checkout.checkoutCart)
+
+app.get('/orderhistory/:id', order.getUserOrders)
 app.get('/order/:id', order.getOrder)
 
 // basic
 
+//Logging in, authenticating and sending a JWT to user for accessToken
 app.post('/login/password',
   passport.authenticate('local', { failureRedirect: '/error', failureMessage: true }),
   function (req, res) {
@@ -173,6 +194,7 @@ app.post('/login/password',
 
     console.log(req.user)
   });
+
 
 app.use('/error', function (req, res, next) {
   res.sendStatus(401);

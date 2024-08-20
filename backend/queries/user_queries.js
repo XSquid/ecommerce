@@ -31,7 +31,7 @@ const createUser = (request, response) => {
     bcrypt.genSalt(saltRounds, function(err, salt) {
         bcrypt.hash(password, salt, function(err, hash) {
 
-            dblogin.pool.query('INSERT INTO users (username, password, address, email) VALUES ($1, $2, $3, $4) RETURNING *', [username, hash, address, email], (error, results) => {
+            dblogin.pool.query('INSERT INTO users (username, password, email) VALUES ($1, $2, $3) RETURNING *', [username, hash, email], (error, results) => {
                 if (error) {
                     console.log(`Error: ${error.detail}`)
                     response.sendStatus(400)

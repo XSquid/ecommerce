@@ -1,5 +1,6 @@
 import React from 'react';
 import Cart from './cart';
+import ProfileHistory from './profile_history';
 
 import useAuth from '../hooks/useAuth';
 
@@ -23,6 +24,7 @@ return (
             </div>
             <div className="order-history">
                 <h2>Order History</h2>
+                <ProfileHistory />
             </div>
         </div>
     </div>

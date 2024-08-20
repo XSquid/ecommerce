@@ -19,6 +19,8 @@
     background-color: #3E5C76;
     max-height: 30vh;
     border-radius: 1rem;
+    cursor: pointer;
+    user-select: none;
 }
 
 .search-icon:hover {

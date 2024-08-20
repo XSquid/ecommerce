@@ -2,16 +2,46 @@ const dblogin = require('../database');
 
 const checkoutCart = async (request, response) => {
     const cart_id = parseInt(request.params.id)
+    const {order_total} = request.body;
     const paymentSuccess = true;
-    if (paymentSuccess) {
-        await dblogin.pool.query('INSERT INTO orders (cart_id, user_id, item1_id, item1_amount, item2_id, item2_amount, item3_id, item3_amount, item4_id, item4_amount, item5_id, item5_amount, item6_id, item6_amount, item7_id, item7_amount, item8_id, item8_amount, item9_id, item9_amount, item10_id, item10_amount) SELECT cart_id, user_id, item1_id, item1_amount, item2_id, item2_amount, item3_id, item3_amount, item4_id, item4_amount, item5_id, item5_amount, item6_id, item6_amount, item7_id, item7_amount, item8_id, item8_amount, item9_id, item9_amount, item10_id, item10_amount FROM carts WHERE cart_id = $1', 
-        [cart_id], (error, results) => {
-            if (error) {
-                throw error
-            }
-            return response.status(200).send(`Created order using cart ${cart_id}`)
-        })
-    }
+
+    //Load data from the database, not using data from the submit. Exception is the order total, which should be saved on the database, but I did not do it like that for
+    // this project. I should probably revist and change it at a later date.
+    dblogin.pool.query('SELECT * FROM cart_test WHERE cart_id = $1', [cart_id], (error, results) => {
+        if (error) {
+            throw error
+        }
+        let order_cart_id = results.rows[0].cart_id;
+        let order_user_id = results.rows[0].user_id;
+        let order_contents = results.rows[0].contents
+
+        //If the user has funds, insert the values from the cart into the order database (aka confirming the order)
+        if (paymentSuccess) {
+            dblogin.pool.query('INSERT INTO orders (user_id, contents, cart_id, total) VALUES ($1, $2, $3, $4)', 
+            [order_user_id, order_contents, order_cart_id, order_total], (error, results) => {
+                if (error) {
+                    throw error
+                }
+                //Updating the cart to completed = true, so it will not be displayed as an active cart
+                dblogin.pool.query('UPDATE cart_test SET completed = true WHERE cart_id = $1', [order_cart_id], (error, results) => {
+                    if (error) {
+                        throw error
+                    }
+                    dblogin.pool.query('INSERT INTO cart_test (user_id) VALUES ($1)', [order_user_id], (error, results) => {
+                        if (error) {
+                            console.log(`Error: ${error.detail}`)
+                            response.sendStatus(400)
+                            return null
+                        }
+                        console.log(`Order placed for cart id: ${cart_id}, new cart created`)
+                        return response.sendStatus(201)
+                    })
+                })
+                
+            })
+        }
+
+    })
 }
 
 module.exports = {

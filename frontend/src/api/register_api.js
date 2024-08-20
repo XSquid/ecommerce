@@ -7,7 +7,6 @@ function RegisterUser() {
     //set state based on input fields
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [address, setAddress] = useState('');
     const [email, setEmail] = useState('')
 
     const navigate = useNavigate();
@@ -18,7 +17,6 @@ function RegisterUser() {
         axios.post('/register/create', {
             username,
             password,
-            address,
             email
         }).then(function (response) {
             console.log(response)
@@ -41,10 +39,6 @@ function RegisterUser() {
             <div>
                 <label for="password">Password</label><br />
                 <input id="password" name="password" type="password" autocomplete="password" onChange={event => setPassword(event.target.value)} required />
-            </div>
-            <div>
-                <label for="address">Address</label><br />
-                <input id="address" name="address" type="text" autocomplete="address" onChange={event => setAddress(event.target.value)} required />
             </div>
             <div>
                 <label for="email">Email</label><br />

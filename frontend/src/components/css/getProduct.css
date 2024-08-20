@@ -1,18 +1,22 @@
 .product-page {
     display: grid;
     margin: 2em;
-    grid-template-columns: repeat(4, 20vw 12vw 15vw 35vw);
-    gap: 2em;
+    grid-template-columns: repeat(3, minmax(200px, 100%));
+    column-gap: 1em;
+    row-gap: 0.5em;
     background-color: #3E5C76;
     align-items: center;
     border-radius: 2em;
     color: #F0EBD8;
     min-height: 12em;
+    min-width: 600px;
+    max-width: 800px;
+    margin: auto;
 }
 
 #product-page-title {
-    margin-left: calc(20vw + 2em);
     color: #1d2d44;
+    text-align: center;
 }
 
 
@@ -30,17 +34,21 @@
 #product-picture {
     margin: auto;
     max-height: 12rem;
-    max-width: 18vw;
+    max-width: 100%;
     padding: 2em;
 
+}
+
+.product-stock{
+    margin: auto;
 }
 
 .product-cart {
     height: 100%;
     display: inline-flex;
-    text-align: center;
     align-items: center;
-
+    text-align: center;
+    margin: auto;
 }
 
 .product-cart input[type="number"] {
@@ -59,16 +67,19 @@
     margin-bottom: 1.4em;
     position: relative;
     left: 0;
-
-
 }
 
-.product-cart button:invalid {
-    color: red;
-}
+.product-description{
+    margin-left: 3em;
+    margin-right: 3em;
+    margin-bottom: 1em;
+    text-align: center;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    }
 
 .product-cart button:hover {
-    background-color: #1d2d44;
+    background-color: #748CAB;
     margin-bottom: 1.4em;
     cursor: pointer;
 }
@@ -104,6 +115,13 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
+.please-login{
+    color:red;
+    text-align: center;
+    font-size: 1.5em;
+}
+
 
 
 /* 
