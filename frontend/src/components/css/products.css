@@ -21,6 +21,7 @@
     border-radius: 1rem;
     cursor: pointer;
     user-select: none;
+    min-width: 10em;;
 }
 
 .search-icon:hover {
@@ -30,7 +31,12 @@
 
 .search-icon img {
     max-height: 80%;
-    margin-top: -5%;
+    margin: auto;
+}
+
+.search-icon h3{
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 #all-products img {

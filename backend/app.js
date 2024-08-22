@@ -130,6 +130,13 @@ app.post('/profile/edit/:id/delete', loggedIn, verifyJWT, users.deleteUser) //De
 
 app.get('/users', users.getUsers) //Not really needed anymore, unless as admin tool.
 
+
+//Used only for loading the funds available on profile page
+app.get('/user/:id', verifyJWT, users.getUserById)
+
+//Used for adding funds to user account
+app.post('/user/:id/editFunds', verifyJWT, users.editUserFunds)
+
 //product CRUD begin here
 
 //Used in cart to reference items
@@ -152,7 +159,7 @@ app.delete('/product/:id', products.deleteProduct) // add authorization
 app.get('/carts', carts.getAllCarts)
 
 //Used to load user cart
-app.get('/cart/:id', carts.getCart)
+app.get('/cart/:id', verifyJWT, carts.getCart)
 
 //Will now be used when placing an order, may just use the carts.createCart method instead of the call.
 app.post('/cart/create', carts.createCart)
@@ -169,8 +176,8 @@ app.post('/cart/add/:id', verifyJWT, carts.addToCart)
 
 app.post('/cart/:id/checkout', checkout.checkoutCart)
 
-app.get('/orderhistory/:id', order.getUserOrders)
-app.get('/order/:id', order.getOrder)
+app.get('/orderhistory/:id', verifyJWT, order.getUserOrders)
+app.get('/order/:id', verifyJWT, order.getOrder)
 
 // basic
 

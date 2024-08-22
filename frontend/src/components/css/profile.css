@@ -55,3 +55,61 @@
 .order-history {
     padding-top: 1em;
 }
+
+.add-funds{
+    padding-top: 5vh;
+    padding-left: 10vw;
+    min-height: calc(94vh - 126.578px);
+}
+
+.add-funds input{
+    width: 12em;
+    height: 1.5rem;
+    margin-top: 1.5em;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    background-color: #F0EBD8;
+}
+
+.add-funds button{
+    background-color: #3E5C76;
+    color: #F0EBD8;
+    height: 2rem;
+    font-size: 1.1rem;
+    border-radius: 1rem;
+    width: 12em;
+    margin-top: 1em;
+}
+
+.add-funds button:hover{
+    background-color:#748CAB;
+    cursor: pointer;
+}
+
+.add-funds h4{
+    color: red;
+    margin-top: 1em;
+    margin-bottom: 0em;
+}
+
+.back-btn {
+    background-color: #3E5C76;
+    color: #F0EBD8;
+    height: 2rem;
+    width: 8rem;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    border-radius: 1rem;
+}
+
+.back-btn:hover{
+    cursor: pointer;
+    background-color: #748CAB;
+}
+
+.invalid-funds-warning{
+    color:red;
+    text-align: center;
+    margin-bottom: 1em;
+}

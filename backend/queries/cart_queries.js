@@ -76,10 +76,16 @@ const addToCart = async (request, response) => {
     const { product_id, quantity } = request.body
     dblogin.pool.query('SELECT * FROM cart_test WHERE user_id = $1 AND completed = false', [user_id], (error, results) => {
         if (error) {
-            throw error
+            console.log(`Error: ${error.detail}`)
+            response.sendStatus(500)
+            return null
         }
         if (results.rows.length > 1) {
             return console.log('Multiple active carts')
+        }
+        if (results.rows.length === 0) {
+            console.log(`No cart for user with id: ${user_id}`)
+            return response.status(400)
         }
 
         const data = results.rows[0].contents

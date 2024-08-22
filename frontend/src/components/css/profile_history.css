@@ -1,12 +1,20 @@
+/* List of orders in your history */
 .profile-order-history{
     text-align: center;
     margin-top: 0.25em;
     user-select: none;
 }
 
+/* When hovering over orders in your history */
 .profile-order-history:hover{
     cursor: pointer;
     color: beige;
     background-color: #748cab;
     border-radius: 0.25em;
+}
+
+
+.my-history{
+    /* Add space underneath the list of orders */
+    padding-bottom: 1em;
 }

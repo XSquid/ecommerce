@@ -23,17 +23,17 @@ const ProfileHistory = () => {
 
     //Click handler for redirecting to the order history page for the specific order clicked on
     const clickHandler = (orderID) => {
-        navigate(`/order_history/${orderID}`)
+        navigate(`/order_history/${orderID}`, {state: {orderID}}) 
     }
 
     //Display for all orders, showing the orders ID (not database ID) and total
     function displayHistory() {
         let orderNumber = 0
-        let display = history.map(el => <div className='profile-order-history' onClick={() => { clickHandler(el[0]) }}>Order {orderNumber += 1} -- Total: {el[1]} </div>)
+        let display = history.map(el => <div key={orderNumber} className='profile-order-history' onClick={() => { clickHandler(el[0]) }}>Order {orderNumber += 1} -- Total: {el[1]} </div>)
         return display
     }
 
-    useEffect(() => { 
+    useEffect(() => {  
         loadHistory()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -42,7 +42,7 @@ const ProfileHistory = () => {
 
         history.length !== 0
         ?
-        <div>
+        <div className='my-history'>
             {displayHistory()}
         </div>
         :

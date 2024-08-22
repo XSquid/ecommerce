@@ -1,0 +1,17 @@
+.order-information-page{
+    background-color: #F0EBD8;
+    min-height: calc(100vh - 126.578px);
+    max-height: calc(100%);
+}
+
+.order-information{
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr;
+    margin-left: 30vw;
+    margin-right: 30vw;
+}
+
+.order-total-line{
+    border-top: double red;
+    margin-top: 0.25em;
+}

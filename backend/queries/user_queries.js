@@ -56,6 +56,22 @@ const createUser = (request, response) => {
 
 }
 
+const editUserFunds = (request, response) => {
+    const user_id = parseInt(request.params.id)
+    const {fundsToAdd} = request.body
+    console.log(fundsToAdd)
+
+    dblogin.pool.query('UPDATE users SET funds = funds + $1 WHERE user_id = $2 RETURNING funds', [fundsToAdd, user_id],
+        (error, results) => {
+            if (error) {
+                throw error
+            }
+            console.log(results.rows[0].funds)
+            return response.status(201).json(results.rows[0].funds)
+        }
+    )
+}
+
 const updateUser = (request, response) => {
     const user_id = parseInt(request.params.id)
     const {username, password, address, email } = request.body
@@ -102,5 +118,6 @@ module.exports = {
     getUserById,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    editUserFunds
 }

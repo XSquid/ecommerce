@@ -110,9 +110,9 @@ const GetProduct = () => {
 
                     <div className='product-cart'>
                         <div>
-                            <span class="material-symbols-outlined" id="arrow-up" onClick={cartAmountUp}>keyboard_arrow_up</span><br />
+                            <span className="material-symbols-outlined" id="arrow-up" onClick={cartAmountUp}>keyboard_arrow_up</span><br />
                             <input id="cart-amount" type="number" max={productInfo.stock_amount} min="0" value={cartAmount} readOnly /><br />
-                            <span class="material-symbols-outlined" id="arrow-down" onClick={cartAmountDown}>keyboard_arrow_down</span><br />
+                            <span className="material-symbols-outlined" id="arrow-down" onClick={cartAmountDown}>keyboard_arrow_down</span><br />
                         </div>
 
                         <div><button onClick={addToCart}>Add to Cart</button><br />
