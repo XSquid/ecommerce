@@ -127,6 +127,10 @@ input::-webkit-inner-spin-button {
     font-size: 1.5em;
 }
 
+#added-to-cart{
+    color: red;
+}
+
 
 
 /* 

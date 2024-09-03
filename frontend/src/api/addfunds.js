@@ -6,12 +6,11 @@ import useAuth from '../hooks/useAuth';
 
 const AddFunds = (props) => {
 
-    const [fundsToAdd, setFundsToAdd] = useState(0)
-    const [warning, setWarning] = useState(false)
+    const [fundsToAdd, setFundsToAdd] = useState(0) //The number in the input for funds to add
+    const [warning, setWarning] = useState(false) //If number is not in the required range, show warning
     const { auth } = useAuth();
-    const [waiting, setWaiting] = useState('')
-
-
+    const [waiting, setWaiting] = useState('') //Used for timeout to show funds are being added
+ 
     const addFunds = async (e) => {
         e.preventDefault();
         if (fundsToAdd < 1 || fundsToAdd > 250) {

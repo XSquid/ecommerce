@@ -5,7 +5,7 @@ import "../components/css/profile_history.css"
 import { useNavigate } from 'react-router';
 
 
-const ProfileHistory = () => {
+const ProfileHistory = (props) => {
     const { auth } = useAuth();
     const [history, setHistory] = useState([])
 
@@ -36,7 +36,7 @@ const ProfileHistory = () => {
     useEffect(() => {  
         loadHistory()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [props.orderPlaced])
 
     return (
 

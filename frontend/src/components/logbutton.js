@@ -2,6 +2,7 @@ import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import './css/header.css'
+import axios from "../api/axios";
 
 
 const LogButton = () => {
@@ -9,8 +10,9 @@ const LogButton = () => {
     const { auth, setAuth } = useAuth();
     const navigate = useNavigate();
 
-    const logoutHandler = (e) => {
+    const logoutHandler = async (e) => {
         e.preventDefault();
+        const response = await axios.post('/logout')
         setAuth({})
         navigate('/home')
     }

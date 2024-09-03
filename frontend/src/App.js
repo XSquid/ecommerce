@@ -11,9 +11,13 @@ import Profile from './components/profile';
 import Products from './components/products';
 import ProductPage from './components/productPage';
 import OrderHistory from './components/orderhistory';
+import DeleteProfile from './components/deleteprofile';
 
 const router = createBrowserRouter(createRoutesFromElements(
+
+  //Parent route root makes it so all other routes display the header
   <Route path='/' element={<Root />}>
+    <Route path='/' element={<Home />} />
     <Route path='home' element={<Home />} />
     <Route path='login' element={<Login />} />
     <Route path='register' element={<Register />} />
@@ -25,6 +29,10 @@ const router = createBrowserRouter(createRoutesFromElements(
 
     <Route element={<RequireAuth />}>
       <Route path='order_history/:id' element={<OrderHistory />}/>
+    </Route>
+
+    <Route element={<RequireAuth />}>
+      <Route path='/profile/delete' element={<DeleteProfile />}/>
     </Route>
 
     <Route path='products' element={<Products />} />

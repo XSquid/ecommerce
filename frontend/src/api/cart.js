@@ -6,11 +6,9 @@ import "../components/css/cart.css"
 const Cart = (props) => {
 
     const { auth } = useAuth();
-    const [userCart, setUserCart] = useState([])
-    const [cartId, setCartId] = useState()
-    const [orderTotal, setOrderTotal] = useState()
-
-
+    const [userCart, setUserCart] = useState([]) //Contains contents of the cart, or information when an order is placed
+    const [cartId, setCartId] = useState() //Contains cart ID from database, needed for removing items and placing order
+    const [orderTotal, setOrderTotal] = useState() //Sum of items in cart, used for checking if enough funds are available both client and server side (not ideal)
 
     //Combine the retrieved cart and product info, so it will show product name, quantity, price and ID
     const compareArrays = (arr1, arr2) => {
@@ -48,9 +46,10 @@ const Cart = (props) => {
     }
 
     //Function to display all items in cart
+    // return as 3 divs inside an empty element in order to properly fill the grid container
     function displayCart() {
         let display = userCart.map(el => <>
-            <div ><span class="material-symbols-outlined" id={el.product_id} onClick={removeCart}>delete</span><span>{el.item}</span></div>
+            <div ><span className="material-symbols-outlined" id={el.product_id} onClick={removeCart}>delete</span><span>{el.item}</span></div>
             <div >{el.quantity}</div>
             <div >{el.price}</div>
         </>)
@@ -98,26 +97,23 @@ const Cart = (props) => {
 
             props.setFunds(response.data) // Set available funds to remaining funds after purchase
 
+
+
             setTimeout(function () {
                 setUserCart([]) //Empty the cart display
+                setUserCart('PROCESSING_ORDER')
                 setTimeout(function () {
-                    setUserCart('PROCESSING_ORDER')
-                    setTimeout(function () {
-                        document.getElementById("processing-order").innerHTML = "Purchase successful!"
-                    }, 1500)
-                }, 250)
-            }, 50)
-
+                    document.getElementById("processing-order").innerHTML = "Purchase successful!"
+                    props.setOrderPlaced(true)
+                }, 1500)
+            }, 250)
 
 
         } catch (err) {
-
             if (err.response.status === 422) {
                 return props.notEnoughFunds(true)
             }
         }
-
-
     }
 
     //Runs fetchProduct to get the product info once on page load

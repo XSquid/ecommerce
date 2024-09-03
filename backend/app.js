@@ -25,6 +25,7 @@ const loggedIn = (req, res, next) => {
   if (req.user) {
     next();
   } else {
+    console.log('failed')
     res.redirect('/login')
   };
 };
@@ -35,7 +36,11 @@ app.use(cors(corsOptions));
 app.use(session({
   secret: "cats",
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {
+    secure: false,
+    maxAge: 24 * 60 * 60 * 1000
+  }
 }));
 
 app.use(bodyParser.json())
@@ -50,20 +55,6 @@ app.use(
 //middleware for cookies
 app.use(cookieParser())
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.serializeUser((user, done) => {
-  done(null, user.user_id) //make sure id is same as the column in database
-});
-
-passport.deserializeUser((id, done) => {
-  dblogin.pool.query('SELECT * FROM users WHERE user_id = $1', [id], (error, users) => {
-    if (error) return done(error)
-    done(null, users.rows[0]);
-  })
-});
-
 // callback function done is used to supply an authenticated user to passport
 //logic within the anon function: 1. verify login details in the callback function 2. if login details valid then done callback function invoked, user is authenticated
 // 3. user is not authenticated, pass false into callback function
@@ -71,7 +62,7 @@ passport.deserializeUser((id, done) => {
 passport.use(new LocalStrategy(function (username, password, done) {
 
   dblogin.pool.query('SELECT * FROM users WHERE username = $1', [username], (error, user) => { //select the row where the username is the same as submitted
-    if (error) return done(error);
+    if (error) return done(error)
     if (!user.rows[0]) return done(null, false) //if there is no row, aka no username was not found, return false
     const hash = user.rows[0].password
     bcrypt.compare(password, hash, function (err, result) {
@@ -84,6 +75,24 @@ passport.use(new LocalStrategy(function (username, password, done) {
     });
   });
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+passport.serializeUser((user, done) => {
+  console.log(`Serialize user: ${user.user_id}`)
+  done(null, user.user_id) //make sure id is same as the column in database
+});
+
+passport.deserializeUser((id, done) => {
+  console.log(`Deserialize user: ${id}`)
+  dblogin.pool.query('SELECT * FROM users WHERE user_id = $1', [id], (error, users) => {
+    if (error) { return done(error)}
+    done(null, users.rows[0]);
+  })
+});
 
 
 app.set('view engine', 'ejs');
@@ -113,10 +122,10 @@ app.post('/register/create', users.createUser )// **Sanitize the input
 // });
 
 //Update user
-app.post('/profile/edit/:id', loggedIn, verifyJWT, users.updateUser)
+app.post('/profile/edit/:id', verifyJWT, users.updateUser)
 
 //Delete user
-app.post('/profile/edit/:id/delete', loggedIn, verifyJWT, users.deleteUser) //Delete user
+app.post('/profile/delete/:id', verifyJWT, users.deleteUser) //Delete user
 
 
 // // No longer needed, this was just for early testing the backend
@@ -183,25 +192,31 @@ app.get('/order/:id', verifyJWT, order.getOrder)
 
 //Logging in, authenticating and sending a JWT to user for accessToken
 app.post('/login/password',
-  passport.authenticate('local', { failureRedirect: '/error', failureMessage: true }),
+  passport.authenticate('local', { 
+    failureRedirect: '/error', 
+    failureMessage: true }),
   function (req, res) {
     const accessToken = jwt.sign(
       {"username" : req.user.username},
       process.env.ACCESS_TOKEN_SECRET,
       {expiresIn: "1h"}
     );
-    const refreshToken = jwt.sign(
-      {"username" : req.user.username},
-      process.env.REFRESH_TOKEN_SECRET,
-      {expiresIn: "1d"}
-    );
-    res.cookie('jwt', refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000});
+    res.cookie('jwt', {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000});
     const userData = req.user
     res.json({accessToken, userData})
 
     console.log(req.user)
   });
 
+app.post('/logout', (req, res) => {
+  
+    req.logout(function (err) {
+    if (err) { return next(err); }
+    req.session.destroy();
+    console.log('logging out')
+  });
+  res.sendStatus(202);
+})
 
 app.use('/error', function (req, res, next) {
   res.sendStatus(401);

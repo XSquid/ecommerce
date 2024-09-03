@@ -1,6 +1,6 @@
 const dblogin = require('../database');
 const bcrypt = require("bcrypt");
-
+var passport = require('passport');
 const saltRounds = 10
 
 
@@ -28,8 +28,8 @@ const createUser = (request, response) => {
     const saltRounds = 10
     const { username, password, address, email } = request.body
 
-    bcrypt.genSalt(saltRounds, function(err, salt) {
-        bcrypt.hash(password, salt, function(err, hash) {
+    bcrypt.genSalt(saltRounds, function (err, salt) {
+        bcrypt.hash(password, salt, function (err, hash) {
 
             dblogin.pool.query('INSERT INTO users (username, password, email) VALUES ($1, $2, $3) RETURNING *', [username, hash, email], (error, results) => {
                 if (error) {
@@ -58,7 +58,7 @@ const createUser = (request, response) => {
 
 const editUserFunds = (request, response) => {
     const user_id = parseInt(request.params.id)
-    const {fundsToAdd} = request.body
+    const { fundsToAdd } = request.body
     console.log(fundsToAdd)
 
     dblogin.pool.query('UPDATE users SET funds = funds + $1 WHERE user_id = $2 RETURNING funds', [fundsToAdd, user_id],
@@ -74,10 +74,10 @@ const editUserFunds = (request, response) => {
 
 const updateUser = (request, response) => {
     const user_id = parseInt(request.params.id)
-    const {username, password, address, email } = request.body
+    const { username, password, address, email } = request.body
 
-    bcrypt.genSalt(saltRounds, function(err, salt) {
-        bcrypt.hash(password, salt, function(err, hash) {
+    bcrypt.genSalt(saltRounds, function (err, salt) {
+        bcrypt.hash(password, salt, function (err, hash) {
 
             dblogin.pool.query(
                 'UPDATE users SET username = $1, password = $2, address = $3, email = $4 WHERE user_id = $5',
@@ -97,18 +97,20 @@ const updateUser = (request, response) => {
 
 }
 
+
+
 const deleteUser = (request, response) => {
     const user_id = parseInt(request.params.id)
-    request.logout(function (err) {
-        if (err) { return next(err); }
-        response.redirect('/');
-      });
-    dblogin.pool.query('DELETE FROM users WHERE user_id = $1', [user_id], (error, results) => {
-        if (error) {
-            throw error
-        }
-        console.log(`User deleted with ID: ${user_id}`)
-        return response.status(200)
+            console.log(`Delete button pressed: ${request.user}`)
+        request.session.destroy(function (err) {
+            console.log(request.session)
+            dblogin.pool.query('DELETE FROM users WHERE user_id = $1', [user_id], (error, results) => {
+                if (error) {
+                    throw error
+                }
+                console.log(`User deleted with ID: ${user_id}`)
+                return response.sendStatus(200)
+            })
     })
 }
 

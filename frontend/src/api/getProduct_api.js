@@ -11,6 +11,7 @@ const GetProduct = () => {
     const [cartAmount, setCartAmount] = useState(0);
     const { auth } = useAuth();
     const [createAccount, setCreateAccount] = useState(false)
+    const [addedToCart, setAddedToCart] = useState(false)
 
     //Fetch to the database on page load to get product info
     const fetchProduct = async () => {
@@ -72,13 +73,16 @@ const GetProduct = () => {
                 headers: {"Authorization": `Bearer ${auth.accessToken}`} //Set authorization header with access token in order to verify login with JWT on backend
             }
             )
-
             console.log(response)
+            setAddedToCart(true)
+            
         } catch (err) {
             if (err.response.status === 401 || err.response.status ===403 )  {
                 return setCreateAccount(true)
             }
+            
         }
+        setAddedToCart(false)
 
     }
 
@@ -116,6 +120,9 @@ const GetProduct = () => {
                         </div>
 
                         <div><button onClick={addToCart}>Add to Cart</button><br />
+                        {addedToCart
+                        ?<span id='added-to-cart'>Added to cart!</span>
+                        :<></>}
 
                         </div>
 
